@@ -23,9 +23,14 @@ for (let j = 0; j < 3; j++) {
 function makeCounter() {
   // TODO: заведи приватную переменную count и верни функцию,
   //       которая увеличивает и возвращает её.
+  let count = 0;
+  return function() {
+    count += 1;
+    return count;
+  };
 }
-// const counter = makeCounter();
-// console.log("2:", counter(), counter(), counter()); // ждём 1 2 3
+const counter = makeCounter();
+console.log("2:", counter(), counter(), counter()); // ждём 1 2 3
 
 // -------------------------------------------------------------
 // Задача 3. Приватное состояние (аналог private поля в C#)
@@ -33,12 +38,16 @@ function makeCounter() {
 // чтобы balance нельзя было изменить напрямую снаружи.
 // -------------------------------------------------------------
 function createWallet(initial) {
-  // TODO
+
+  let balance = initial;
+  function deposit(amount) { balance += amount; }
+  function getBalance() { return balance; }
+  return { deposit, getBalance};
 }
-// const w = createWallet(100);
-// w.deposit(50);
-// console.log("3:", w.getBalance()); // 150
-// console.log("balance напрямую доступен?", w.balance); // должно быть undefined
+const w = createWallet(100);
+w.deposit(50);
+console.log("3:", w.getBalance()); // 150
+console.log("balance напрямую доступен?", w.balance); // должно быть undefined
 
 // -------------------------------------------------------------
 // ВЫВОД: своими словами — что такое замыкание? _______

@@ -16,7 +16,7 @@ const user = {
     return `Hi, I'm ${this.name}`;
   },
 };
-// console.log("1a:", user.greet());
+console.log("1a:", user.greet());
 // const g = user.greet;
 // console.log("1b:", g());   // что с this тут?
 
@@ -33,16 +33,16 @@ const obj = {
     return this && this.name; // лексический this — НЕ obj
   },
 };
-// console.log("2a:", obj.regular());
-// console.log("2b:", obj.arrow());
+console.log("2a:", obj.regular());
+console.log("2b:", obj.arrow());
 
 // -------------------------------------------------------------
 // Задача 3. Явная привязка через bind
 // Привяжи greet к user2 так, чтобы оторванный вызов работал.
 // -------------------------------------------------------------
 const user2 = { name: "Bound User" };
-// const boundGreet = user.greet.bind(user2);
-// console.log("3:", boundGreet()); // ждём "Hi, I'm Bound User"
+const boundGreet = user.greet.bind(user2);
+console.log("3:", boundGreet()); // ждём "Hi, I'm Bound User"
 
 // -------------------------------------------------------------
 // Задача 4 (QA-кейс). Почему это важно в Playwright/колбэках:
