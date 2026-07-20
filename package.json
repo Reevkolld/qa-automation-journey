@@ -4,11 +4,11 @@
   "description": "Public log of my path from Manual QA → Junior Auto QA Engineer (TypeScript + Playwright).   Started: 04.06.2026.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "test": "vitest run"
   },
   "repository": {
     "type": "git",
