@@ -2,7 +2,6 @@
 // 04 — Замыкания (closures)
 // Запуск: node 04-closures.js
 
-
 // Задача 1. Классический баг: var в цикле с setTimeout
 // ПРЕДСКАЗАНИЕ: что выведет первый цикл? 3 3 3 второй? 0 1 2
 // -------------------------------------------------------------
@@ -13,11 +12,10 @@ for (let j = 0; j < 3; j++) {
   setTimeout(() => console.log("let j:", j)); // 0 1 2 потому что let блочный, и каждый колбэк захватывает своё значение j в момент создания
 }
 
-
 // Задача 2. Счётчик на замыкании
 function makeCounter() {
   let count = 0;
-  return function() {
+  return function () {
     count += 1;
     return count;
   };
@@ -25,14 +23,16 @@ function makeCounter() {
 const counter = makeCounter();
 console.log("2:", counter(), counter(), counter()); // ждём 1 2 3
 
-
 // Задача 3. Приватное состояние (аналог private поля в C#)
 function createWallet(initial) {
-
   let balance = initial;
-  function deposit(amount) { balance += amount; }
-  function getBalance() { return balance; }
-  return { deposit, getBalance};
+  function deposit(amount) {
+    balance += amount;
+  }
+  function getBalance() {
+    return balance;
+  }
+  return { deposit, getBalance };
 }
 const w = createWallet(100);
 w.deposit(50);

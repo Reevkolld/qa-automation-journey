@@ -11,7 +11,7 @@
 // Какой инструмент «работает с любым типом, но сохраняет его» — реши сам (это тема сегодняшнего конспекта).
 // Шаблонные типы (generics) позволяют функции работать с любым типом, сохраняя его.
 // В данном случае мы используем параметр типа T, который представляет тип элементов массива.
-// Template types (generics) allow the function to accept an array of any type T and return a value of type T or undefined, 
+// Template types (generics) allow the function to accept an array of any type T and return a value of type T or undefined,
 // depending on whether the array is empty or not.
 
 function first<T>(a: T[]): T | undefined {
@@ -26,9 +26,9 @@ function main(): void {
   const strResult = first(strArray);
   const emptyResult = first(emptyArray);
 
-    console.log(numResult); // Output: 1
-    console.log(strResult); // Output: "a"
-    console.log(emptyResult); // Output: undefined
+  console.log(numResult); // Output: 1
+  console.log(strResult); // Output: "a"
+  console.log(emptyResult); // Output: undefined
 }
 
 main();

@@ -19,17 +19,15 @@ function task(id, ms, shouldFail) {
 // (заведомо падающий) внутри try/catch и печатает результат/ошибку.
 // -------------------------------------------------------------
 async function runOne() {
-  try{
+  try {
     const result = await task(1, 100, true);
     console.log(result);
-  }
-  catch(error){
+  } catch (error) {
     console.log("RunOne error: ", error.message);
   }
 }
 
 runOne();
-
 
 // -------------------------------------------------------------
 // Задача 2. Promise.all — ошибка в одном из нескольких параллельных
@@ -40,21 +38,15 @@ runOne();
 // сколько мс примерно (вспомни: fail-fast, самая быстрая ошибка "побеждает")?
 // -------------------------------------------------------------
 async function runAll() {
-  try{
-    const result = await Promise.all([
-      task(1, 100, false),
-      task(2, 50, true),
-      task(3, 150, false)
-    ]);
+  try {
+    const result = await Promise.all([task(1, 100, false), task(2, 50, true), task(3, 150, false)]);
     console.log(result);
-  }
-  catch(error){
+  } catch (error) {
     console.log("RunAll error: ", error.message);
   }
 }
 
 runAll();
-
 
 // -------------------------------------------------------------
 // Задача 3. Promise.allSettled — тот же набор задач, но без потери
@@ -64,24 +56,22 @@ runAll();
 // (results.filter(...)) и выведи количество тех и других в консоль.
 // -------------------------------------------------------------
 async function runAllSettled() {
-  try{
+  try {
     const results = await Promise.allSettled([
       task(1, 100, false),
       task(2, 50, true),
-      task(3, 150, false)
+      task(3, 150, false),
     ]);
-    const fulfilled = results.filter(r => r.status === "fulfilled");
-    const rejected = results.filter(r => r.status === "rejected");
+    const fulfilled = results.filter((r) => r.status === "fulfilled");
+    const rejected = results.filter((r) => r.status === "rejected");
     console.log(`Fulfilled: ${fulfilled.length}, Rejected: ${rejected.length}`);
     console.log("Results:", results);
-  }
-  catch(error){
+  } catch (error) {
     console.log("RunAllSettled error: ", error.message);
   }
 }
 
 runAllSettled();
-
 
 // -------------------------------------------------------------
 // Задача 4 (QA-кейс). Race condition — непредсказуемый порядок записи
@@ -109,14 +99,13 @@ function writeState(value, delayMs) {
 }
 
 async function demoRace() {
-  try{
+  try {
     await Promise.all([
       writeState("from A", Math.floor(Math.random() * 100)),
-      writeState("from B", Math.floor(Math.random() * 100))
+      writeState("from B", Math.floor(Math.random() * 100)),
     ]);
     console.log("Final sharedState:", sharedState);
-  }
-  catch(error){
+  } catch (error) {
     console.log("RunDemoRace error: ", error.message);
   }
 }
@@ -130,12 +119,11 @@ async function runDemoRaceMultipleTimes() {
 
 runDemoRaceMultipleTimes();
 
-
 // -------------------------------------------------------------
 // ВЫВОД: своими словами —
 // (а) почему Promise.all показал только ОДНУ ошибку, даже если бы упали
-//     все три задачи? 
-// 
+//     все три задачи?
+//
 // После первого reject'а остальные задачи продолжали выполняться, но их ошибки игнорировались
 
 // (б) почему race condition в задаче 4 нельзя "починить" через
@@ -145,7 +133,6 @@ runDemoRaceMultipleTimes();
 // завершиться в любом порядке, и последняя запись перезапишет предыдущую, что приводит к непредсказуемому состоянию sharedState, например,
 // если writeState("from A") завершится после writeState("from B"), то sharedState будет "from A", и наоборот
 // -------------------------------------------------------------
-
 
 // =============================================================
 // Задача 5 (10.07). Последовательный await vs Promise.all — время выполнения
@@ -161,27 +148,25 @@ runDemoRaceMultipleTimes();
 // именно такая разница (сумма vs максимум)?
 // -------------------------------------------------------------
 async function runSequential() {
-  try{
+  try {
     console.time("sequential");
     for (const id of [1, 2, 3]) {
       const result = await task(id, 100, false);
       console.log(result);
     }
     console.timeEnd("sequential");
-  }
-  catch(error){
+  } catch (error) {
     console.log("RunSequential error: ", error.message);
   }
 }
 
 async function runParallel() {
-  try{
+  try {
     console.time("parallel");
-    const results = await Promise.all([1, 2, 3].map(id => task(id, 100, false)));
+    const results = await Promise.all([1, 2, 3].map((id) => task(id, 100, false)));
     console.log(results);
     console.timeEnd("parallel");
-  }
-  catch(error){
+  } catch (error) {
     console.log("RunParallel error: ", error.message);
   }
 }
@@ -189,12 +174,11 @@ async function runParallel() {
 runSequential();
 runParallel();
 
-
 // -------------------------------------------------------------
 // ВЫВОД (задача 5): своими словами — совпало ли реальное время с
 // предсказанием? Когда в реальном Playwright-тесте ты бы намеренно выбрал
 // последовательные await вместо Promise.all, даже зная, что это медленнее?
-// Когда один тест зависит от результата предыдущего (например, нужно сначала залогиниться, а потом делать действия в приложении), 
-// тогда последовательные await оправданы. В остальных случаях лучше использовать Promise.all для параллельного выполнения задач, 
+// Когда один тест зависит от результата предыдущего (например, нужно сначала залогиниться, а потом делать действия в приложении),
+// тогда последовательные await оправданы. В остальных случаях лучше использовать Promise.all для параллельного выполнения задач,
 // чтобы сократить общее время выполнения
 // -------------------------------------------------------------

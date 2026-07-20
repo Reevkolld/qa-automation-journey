@@ -1,7 +1,6 @@
 // =============================================================
 // 02 — Промисы: перепиши callback-функции в промисы (часть 1 из 2)
 
-
 // -------------------------------------------------------------
 // Задача 1. delay — колбэк-версия таймера
 // TODO: напиши delayPromise(ms), которая возвращает Promise,
@@ -14,11 +13,10 @@ function delayCallback(ms, callback) {
 delayCallback(300, () => console.log("1 (callback): прошло 300мс"));
 
 function delayPromise(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 delayPromise(300).then(() => console.log("1 (promise): прошло 300мс"));
-
 
 // -------------------------------------------------------------
 // Задача 2. Error-first callback (стандартный Node-паттерн) → промис
@@ -50,9 +48,8 @@ function getUserPromise(id) {
   });
 }
 
-getUserPromise(1).then(user => console.log("2 (promise) success:", user));
-getUserPromise(-1).catch(err => console.log("2 (promise) error:", err.message));
-
+getUserPromise(1).then((user) => console.log("2 (promise) success:", user));
+getUserPromise(-1).catch((err) => console.log("2 (promise) error:", err.message));
 
 // -------------------------------------------------------------
 // Задача 3. Асинхронная валидация с ошибкой
@@ -83,8 +80,8 @@ function divideAsync(a, b) {
   });
 }
 
-divideAsync(10, 2).then(result => console.log("3 (promise) result:", result));
-divideAsync(10, 0).catch(err => console.log("3 (promise) error:", err.message));
+divideAsync(10, 2).then((result) => console.log("3 (promise) result:", result));
+divideAsync(10, 0).catch((err) => console.log("3 (promise) error:", err.message));
 // -------------------------------------------------------------
 // Задача 4. Callback hell → цепочка промисов
 // Три последовательных шага: получить пользователя → получить его посты →
@@ -132,15 +129,19 @@ function getCommentsPromise(postId) {
 }
 
 // TODO: собери цепочку — getUserPromise(1).then(...).then(...).then(comments => console.log("4 (promise) comments:", comments));
-getUserPromise(1).then(user => {
-  return getPostsPromise(user.id);
-}).then(posts => {
-  return getCommentsPromise(posts[0]);
-}).then(comments => {
-  console.log("4 (promise) comments:", comments);
-}).catch(err => {
-  console.log("4 (promise) error:", err.message);
-});
+getUserPromise(1)
+  .then((user) => {
+    return getPostsPromise(user.id);
+  })
+  .then((posts) => {
+    return getCommentsPromise(posts[0]);
+  })
+  .then((comments) => {
+    console.log("4 (promise) comments:", comments);
+  })
+  .catch((err) => {
+    console.log("4 (promise) error:", err.message);
+  });
 
 // -------------------------------------------------------------
 // Задача 5 (QA-кейс). Retry-обёртка над "флаки" операцией
@@ -181,9 +182,8 @@ function checkElementWithRetry() {
 }
 
 checkElementWithRetry()
-  .then(result => console.log("5 (promise) success:", result))
-  .catch(err => console.log("5 (promise) failed after retry:", err.message));
-
+  .then((result) => console.log("5 (promise) success:", result))
+  .catch((err) => console.log("5 (promise) failed after retry:", err.message));
 
 // -------------------------------------------------------------
 // ВЫВОД: своими словами — почему error-first callback (err, data) =>
@@ -191,7 +191,6 @@ checkElementWithRetry()
 // Потому что в промисах принято, что reject() сигнализирует об ошибке, а resolve() — об успешном результате.
 // Это делает код более читаемым и предсказуемым, так как разработчики ожидают, что ошибки будут обрабатываться через .catch(), а успешные результаты через .then().
 // -------------------------------------------------------------
-
 
 // =============================================================
 // ЧАСТЬ 2 — те же 5 функций, теперь через async/await
@@ -213,7 +212,6 @@ async function delayAwait(ms) {
 
 delayAwait(300);
 
-  
 // -------------------------------------------------------------
 // Задача 2 (async/await). Обёртка над getUserPromise с try/catch.
 // TODO: напиши async-функцию getUserAwait(id) — await getUserPromise(id)
@@ -231,7 +229,6 @@ async function getUserAwait(id) {
 getUserAwait(1);
 getUserAwait(-1);
 
-
 // -------------------------------------------------------------
 // Задача 3 (async/await). Обёртка над divideAsync с try/catch.
 // TODO: напиши async-функцию divideAwait(a, b) по тому же принципу.
@@ -247,7 +244,6 @@ async function divideAwait(a, b) {
 
 divideAwait(10, 2);
 divideAwait(10, 0);
-
 
 // -------------------------------------------------------------
 // Задача 4 (async/await). Тот же пайплайн user → posts → comments,
@@ -270,7 +266,6 @@ async function getFirstPostCommentsAwait(userId) {
 
 getFirstPostCommentsAwait(1);
 
-
 // -------------------------------------------------------------
 // Задача 5 (async/await, QA-кейс). Retry через await + try/catch —
 // сравни с версией через .catch() выше: логика та же (одна попытка,
@@ -285,12 +280,14 @@ async function checkElementWithRetryAwait() {
     const result = await checkElementCallbackPromise();
     return result;
   } catch (err) {
-    console.log("5 (async/await): первая попытка не удалась, пробуем ещё раз...");
+    console.log("5 (async/await): первая попытка не удалась, пробуем ещё раз...", err.message);
     try {
       const result = await checkElementCallbackPromise();
       return result;
     } catch (err) {
-      throw new Error(`5 (async/await): вторая попытка тоже не удалась: ${err.message}`);
+      return Promise.reject(
+        new Error("5 (async/await): вторая попытка тоже не удалась: " + err.message),
+      );
     }
   }
 }
@@ -304,11 +301,10 @@ async function checkElementWithRetryAwait() {
   }
 })();
 
-
 // -------------------------------------------------------------
 // ВЫВОД: своими словами — что изменилось в читаемости кода между
 // .then()-цепочками (часть 1) и async/await (часть 2)? Что осталось
 // ровно тем же самым "под капотом"?
-// Async/await делает код более линейным и читаемым, так как он выглядит как обычный синхронный код, что упрощает понимание последовательности операций. 
+// Async/await делает код более линейным и читаемым, так как он выглядит как обычный синхронный код, что упрощает понимание последовательности операций.
 // В то время как .then()-цепочки могут быть сложными для восприятия, особенно при наличии нескольких уровней вложенности
 // -------------------------------------------------------------

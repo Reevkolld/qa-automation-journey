@@ -29,27 +29,28 @@ type Rectangle = {
 type Shape = Circle | Square | Rectangle;
 
 function area(s: Shape): number {
-    switch (s.kind) {
-        case "circle":
-            return Math.PI * s.radius * s.radius;
-        case "square":
-            return s.side * s.side;
-        case "rectangle":
-            return s.width * s.height;
-        default:
-            const _exhaustiveCheck: never = s;
-            return _exhaustiveCheck;
+  switch (s.kind) {
+    case "circle":
+      return Math.PI * s.radius * s.radius;
+    case "square":
+      return s.side * s.side;
+    case "rectangle":
+      return s.width * s.height;
+    default: {
+      const _exhaustive: never = s;
+      return _exhaustive;
     }
+  }
 }
 
 function main(): void {
-    const circle: Circle = { kind: "circle", radius: 5 };
-    const square: Square = { kind: "square", side: 4 };
-    const rectangle: Rectangle = { kind: "rectangle", width: 3, height: 6 };
+  const circle: Circle = { kind: "circle", radius: 5 };
+  const square: Square = { kind: "square", side: 4 };
+  const rectangle: Rectangle = { kind: "rectangle", width: 3, height: 6 };
 
-    console.log(area(circle)); // Output: 78.53981633974483
-    console.log(area(square)); // Output: 16
-    console.log(area(rectangle)); // Output: 18
+  console.log(area(circle)); // Output: 78.53981633974483
+  console.log(area(square)); // Output: 16
+  console.log(area(rectangle)); // Output: 18
 }
 
 main();

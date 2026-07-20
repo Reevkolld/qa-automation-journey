@@ -1,1 +1,2 @@
-﻿const msg: string = "tsx работает"; console.log(msg);
+﻿const msg: string = "tsx работает";
+console.log(msg);

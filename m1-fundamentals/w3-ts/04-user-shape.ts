@@ -26,11 +26,11 @@ function main(): void {
   const user: User = { id: 1, name: "Sam" };
   const admin: Admin = { id: 2, name: "Alice", role: "admin" };
 
-    console.log(describe(user)); // Output: #1 Sam
-    console.log(describe(admin)); // Output: #2 Alice
+  console.log(describe(user)); // Output: #1 Sam
+  console.log(describe(admin)); // Output: #2 Alice
 
-    // const invalidUser: User = { id: 3 }; // Ошибка компиляции: отсутствует поле name
-    // const invalidAdmin: Admin = { id: 4, name: "Bob", role: "root" }; // Ошибка компиляции: role должно быть "admin"
+  // const invalidUser: User = { id: 3 }; // Ошибка компиляции: отсутствует поле name
+  // const invalidAdmin: Admin = { id: 4, name: "Bob", role: "root" }; // Ошибка компиляции: role должно быть "admin"
 }
 
 main();

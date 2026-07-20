@@ -12,32 +12,32 @@
 // Используем generic-класс с ограничением типа через extends, чтобы гарантировать наличие поля id: number в сущности
 // Using a generic class with a type constraint via extends ensures that the entity has an id: number field.
 
-class Repository<T extends {id:number}> {
-    private items: T[] = [];
+class Repository<T extends { id: number }> {
+  private items: T[] = [];
 
-    add(item: T): void {
-        this.items.push(item);
-    }
+  add(item: T): void {
+    this.items.push(item);
+  }
 
-    getById(id: number): T | undefined {
-        return this.items.find(item => item.id === id);
-    }
+  getById(id: number): T | undefined {
+    return this.items.find((item) => item.id === id);
+  }
 
-    all(): T[] {
-        return this.items;
-    }
+  all(): T[] {
+    return this.items;
+  }
 }
 
 function main(): void {
-    const userRepository = new Repository<{ id: number; name: string }>();
-    userRepository.add({ id: 1, name: "Alice" });
-    userRepository.add({ id: 2, name: "Bob" });
+  const userRepository = new Repository<{ id: number; name: string }>();
+  userRepository.add({ id: 1, name: "Alice" });
+  userRepository.add({ id: 2, name: "Bob" });
 
-    console.log(userRepository.getById(1)); // Output: { id: 1, name: "Alice" }
-    console.log(userRepository.getById(3)); // Output: undefined
-    console.log(userRepository.all()); // Output: [{ id: 1, name: "Alice" }, { id: 2, name: "Bob" }]
+  console.log(userRepository.getById(1)); // Output: { id: 1, name: "Alice" }
+  console.log(userRepository.getById(3)); // Output: undefined
+  console.log(userRepository.all()); // Output: [{ id: 1, name: "Alice" }, { id: 2, name: "Bob" }]
 
-    // const invalidRepository = new Repository<{ name: string }>(); // Ошибка компиляции: отсутствует поле id
+  // const invalidRepository = new Repository<{ name: string }>(); // Ошибка компиляции: отсутствует поле id
 }
 
 main();

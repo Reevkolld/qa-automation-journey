@@ -1,6 +1,6 @@
 // Две небольшие задачи в одном файле.
 
-// Часть 1 — Record. Опиши тип FeatureFlags — словарь с фиксированными ключами "darkMode" | "beta" | "ads" и булевыми значениями. Создай объект flags этого типа. 
+// Часть 1 — Record. Опиши тип FeatureFlags — словарь с фиксированными ключами "darkMode" | "beta" | "ads" и булевыми значениями. Создай объект flags этого типа.
 // Напиши isEnabled(flags, key), возвращающую boolean (ключ должен быть только из допустимых — компилятор проверяет).
 
 // Часть 2 — ReturnType. Есть функция:
@@ -21,28 +21,28 @@
 type FeatureFlags = Record<"darkMode" | "beta" | "ads", boolean>;
 
 const flags: FeatureFlags = {
-    darkMode: true,
-    beta: false,
-    ads: true
+  darkMode: true,
+  beta: false,
+  ads: true,
 };
 
 function isEnabled(flags: FeatureFlags, key: keyof FeatureFlags): boolean {
-    return flags[key];
+  return flags[key];
 }
 
 function makeSession() {
-    return { token: "abc", expiresIn: 3600 };
+  return { token: "abc", expiresIn: 3600 };
 }
 
 type Session = ReturnType<typeof makeSession>;
 
 function logSession(s: Session): void {
-    console.log("Session:", s);
+  console.log("Session:", s);
 }
 
 function main(): void {
-    console.log(isEnabled(flags, "beta"));
-    logSession(makeSession()); 
+  console.log(isEnabled(flags, "beta"));
+  logSession(makeSession());
 }
 
 main();

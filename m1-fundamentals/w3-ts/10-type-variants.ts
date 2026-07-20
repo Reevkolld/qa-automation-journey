@@ -21,25 +21,25 @@ type PublicUser = Omit<User, "password">;
 type UserPreview = Pick<User, "id" | "name">;
 
 function applyUpdate(user: User, patch: UserUpdate): User {
-    return { ...user, ...patch };
+  return { ...user, ...patch };
 }
 
 function toPublic(user: User): PublicUser {
-    return { id: user.id, name: user.name, email: user.email};
+  return { id: user.id, name: user.name, email: user.email };
 }
 
 function getUserPreview(user: User): UserPreview {
-    return { id: user.id, name: user.name };
+  return { id: user.id, name: user.name };
 }
 
 function main(): void {
-    const user: User = { id: 1, name: "Sam", email: "sam@example.com", password: "secret" };
-    const updatedUser = applyUpdate(user, { name: "New Name" });
-    console.log("updated user:", updatedUser); // Output: { id: 1, name: "New Name", email: "sam@example.com", password: "secret" }
-    const publicUser = toPublic(user);
-    console.log("public user:", publicUser); // Output: { id: 1, name: "Sam", email: "sam@example.com" }
-    const userPreview = getUserPreview(user);
-    console.log("user preview:", userPreview); // Output: { id: 1, name: "Sam" }
+  const user: User = { id: 1, name: "Sam", email: "sam@example.com", password: "secret" };
+  const updatedUser = applyUpdate(user, { name: "New Name" });
+  console.log("updated user:", updatedUser); // Output: { id: 1, name: "New Name", email: "sam@example.com", password: "secret" }
+  const publicUser = toPublic(user);
+  console.log("public user:", publicUser); // Output: { id: 1, name: "Sam", email: "sam@example.com" }
+  const userPreview = getUserPreview(user);
+  console.log("user preview:", userPreview); // Output: { id: 1, name: "Sam" }
 }
 
 main();
