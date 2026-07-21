@@ -5,7 +5,7 @@ import { makePoint } from "./sum.js";
 describe("sum", () => {
   it("складывает положительные", () => expect(sum(2, 3)).toBe(5));
   it("работает с нулём", () => expect(sum(0, 5)).toBe(5));
-  it("отрицательные", () => expect(sum(-5,-6)).toBe(-11));
+  it("отрицательные", () => expect(sum(-5, -6)).toBe(-11));
 });
 
 describe("makePoint", () => {
