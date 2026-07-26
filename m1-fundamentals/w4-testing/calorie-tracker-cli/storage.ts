@@ -1,5 +1,6 @@
-import { readFileSync, writeFileSync } from "fs";
-import { Meal, isMealArray } from "./types";
+import { readFileSync, writeFileSync, mkdirSync } from "fs";
+import { dirname } from "path";
+import { type Meal, isMealArray } from "./types";
 
 export function readMeals(filePath: string): Meal[] {
   try {
@@ -21,6 +22,7 @@ export function readMeals(filePath: string): Meal[] {
 }
 
 export function saveMeals(filePath: string, meals: Meal[]): void {
+  mkdirSync(dirname(filePath), { recursive: true });
   const saved = JSON.stringify(meals, null, 2);
   writeFileSync(filePath, saved);
 }

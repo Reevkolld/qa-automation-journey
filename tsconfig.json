@@ -10,11 +10,9 @@
     "module": "esnext",
     "moduleResolution": "bundler",
     "target": "esnext",
-    "types": [],
-    // For nodejs:
+    // Node-специфичные API (process, fs, path, __dirname) — нужны типы node:
+    "types": ["node"],
     // "lib": ["esnext"],
-    // "types": ["node"],
-    // and npm install -D @types/node
 
     // Other Outputs
     "sourceMap": true,
