@@ -1,1 +1,4 @@
 node_modules/
+
+# рантайм-данные calorie-tracker-cli — создаются при запуске, не исходники
+m1-fundamentals/w4-testing/calorie-tracker-cli/data/
